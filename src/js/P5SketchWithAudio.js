@@ -86,6 +86,8 @@ const P5SketchWithAudio = () => {
 
         p.trisPerNote = 0;
 
+        p.trisPerLastNote = 0;
+
         p.executeCueSet1 = (note) => {
             const { currentCue } = note;
             p.background(0);
@@ -96,16 +98,19 @@ const P5SketchWithAudio = () => {
                 15;
 
             p.trisPerNote = Math.floor(p.triangles.length / p.gatNotesPerSynthNote);
+            p.trisPerLastNote = p.trisPerNote + (p.triangles.length - (p.gatNotesPerSynthNote * p.trisPerNote));
             
             p.generateNextTriangles();
         }
 
         p.executeCueSet2 = (note) => {
+            const { duration } = note;
             const tris = p.triangles.filter((element) => !element.canDraw),
-                numOfLoops = tris.length > (p.trisPerNote * 2) ? p.trisPerNote : tris.length; 
+                numOfLoops = tris.length === p.trisPerLastNote ? p.trisPerLastNote : p.trisPerNote; 
             for (let i = 0; i < numOfLoops; i++) {
                 const triangle = tris[i];
                 triangle.canDraw = true; 
+                triangle.setLifeTime(duration * 1000); 
             }
         }
 
@@ -121,7 +126,8 @@ const P5SketchWithAudio = () => {
                 
             // add a certain number of pts proportionally to the size of the canvas
             // ~~ truncates a floating point number and keeps the integer part, like floor()
-            const n = ~~ ( p.width / 256 * p.height / 256 );
+            const divisor = 128;
+            const n = ~~ ( p.width / divisor * p.height / divisor );
             for( var i = 0; i < n; i ++ ){
                 pts.push( p.createVector( ~~ p.random( p.width ), ~~ p.random( p.height ) ) );
             }

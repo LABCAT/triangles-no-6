@@ -8,10 +8,12 @@ export default class AnimatedTriangle {
         this.centerX = (this.point1.x + this.point2.x + this.point3.x) / 3;
         this.centerY = (this.point1.y + this.point2.y + this.point3.y) / 3;
         this.origin = this.p.createVector(this.centerX, this.centerY);
-        this.lerpAmount = this.p.random(0.8);
+        this.lerpAmount = this.p.random(0.01, 0.99);
+        this.colour1 = colour1;
+        this.colour2 = colour2;
         this.fillColour = this.p.lerpColor( 
-            colour1, 
-            colour2, 
+            this.colour1, 
+            this.colour2, 
             this.lerpAmount
         ); 
         this.currentFrame = 0;
@@ -39,9 +41,22 @@ export default class AnimatedTriangle {
                 point3 = window.p5.Vector.add(this.origin, dist3);
             }
 
+            let dist4 = window.p5.Vector.sub(point1, this.origin).mult(0.6666);
+            let dist5 = window.p5.Vector.sub(point2, this.origin).mult(0.6666);
+            let dist6 = window.p5.Vector.sub(point3, this.origin).mult(0.6666);
+            let dist7 = window.p5.Vector.sub(point1, this.origin).mult(0.3333);
+            let dist8 = window.p5.Vector.sub(point2, this.origin).mult(0.3333);
+            let dist9 = window.p5.Vector.sub(point3, this.origin).mult(0.3333);
+            let point4 = window.p5.Vector.add(this.origin, dist4);
+            let point5 = window.p5.Vector.add(this.origin, dist5);
+            let point6 = window.p5.Vector.add(this.origin, dist6);
+            let point7 = window.p5.Vector.add(this.origin, dist7);
+            let point8 = window.p5.Vector.add(this.origin, dist8);
+            let point9 = window.p5.Vector.add(this.origin, dist9);
+
             this.p.push();
-            this.p.strokeWeight(3);
-            this.p.stroke(255);
+            this.p.noStroke();
+            this.fillColour.setAlpha(16);
             this.p.fill(this.fillColour);
             this.p.triangle( 
                 point1.x, 
@@ -50,6 +65,27 @@ export default class AnimatedTriangle {
                 point2.y, 
                 point3.x, 
                 point3.y 
+            );
+            this.fillColour.setAlpha(32);
+            this.p.fill(this.fillColour);
+            this.p.triangle( 
+                point4.x, 
+                point4.y, 
+                point5.x, 
+                point5.y, 
+                point6.x, 
+                point6.y 
+            );
+            this.fillColour.setAlpha(64);
+            this.p.fill(this.fillColour);
+            this.p.stroke(255);
+            this.p.triangle( 
+                point7.x, 
+                point7.y, 
+                point8.x, 
+                point8.y, 
+                point9.x, 
+                point9.y 
             );
             this.p.pop();
             this.currentFrame++;

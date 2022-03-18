@@ -67,9 +67,9 @@ const P5SketchWithAudio = () => {
         p.nextTriangles = [];
 
         p.setup = () => {
+            p.randomColor = require('randomcolor');
             p.canvas = p.createCanvas(p.canvasWidth, p.canvasHeight);
             p.background(0);
-
             p.generateNextTriangles();
         }
 
@@ -82,20 +82,22 @@ const P5SketchWithAudio = () => {
             }
         }
 
+        p.colourScheme = [];
+        p.colourIndex = 0;
         p.gatNotesPerSynthNote = 0;
-
         p.trisPerNote = 0;
-
         p.trisPerLastNote = 0;
 
         p.executeCueSet1 = (note) => {
             const { currentCue } = note;
             p.background(0);
-            p.triangles = p.nextTriangles;
             p.gatNotesPerSynthNote = 
                 currentCue % 5 === 0 ? 7 :
                 currentCue % 5 === 4 ? 8 :
                 15;
+            p.triangles = p.nextTriangles;
+            p.colourScheme = p.randomColor({luminosity: 'dark', count: p.gatNotesPerSynthNote});
+            p.colourIndex = 0;
 
             p.trisPerNote = Math.floor(p.triangles.length / p.gatNotesPerSynthNote);
             p.trisPerLastNote = p.trisPerNote + (p.triangles.length - (p.gatNotesPerSynthNote * p.trisPerNote));
@@ -112,6 +114,7 @@ const P5SketchWithAudio = () => {
                 triangle.canDraw = true; 
                 triangle.setLifeTime(duration * 1000); 
             }
+            p.colourIndex++;
         }
 
 
@@ -126,7 +129,7 @@ const P5SketchWithAudio = () => {
                 
             // add a certain number of pts proportionally to the size of the canvas
             // ~~ truncates a floating point number and keeps the integer part, like floor()
-            const divisor = 128;
+            const divisor = p.random([128, 256, 384]);
             const n = ~~ ( p.width / divisor * p.height / divisor );
             for( var i = 0; i < n; i ++ ){
                 pts.push( p.createVector( ~~ p.random( p.width ), ~~ p.random( p.height ) ) );
@@ -140,8 +143,8 @@ const P5SketchWithAudio = () => {
                 return [ pt.x, pt.y ];
             } ) );
                 
-            const colour1 = p.color(p.random(255), p.random(255), p.random(255)),
-                colour2 = p.color(p.random(255), p.random(255), p.random(255));
+            const colour1 = p.color(p.randomColor({luminosity: 'bright'})),
+                colour2 = p.color(p.randomColor({luminosity: 'light'}));
             // create Triangles object using indices returned by Delaunay.triangulate
             for( var i = 0; i < triangulation.length; i += 3 ){
                 p.nextTriangles.push( 

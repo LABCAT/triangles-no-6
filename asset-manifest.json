@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.35f0209f.chunk.css",
-    "main.js": "/static/js/main.4628e4e9.chunk.js",
-    "main.js.map": "/static/js/main.4628e4e9.chunk.js.map",
+    "main.css": "/static/css/main.a60116e0.chunk.css",
+    "main.js": "/static/js/main.071a2793.chunk.js",
+    "main.js.map": "/static/js/main.071a2793.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.2e616bb1.js",
     "runtime-main.js.map": "/static/js/runtime-main.2e616bb1.js.map",
     "static/js/2.571facaa.chunk.js": "/static/js/2.571facaa.chunk.js",
     "static/js/2.571facaa.chunk.js.map": "/static/js/2.571facaa.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.35f0209f.chunk.css.map": "/static/css/main.35f0209f.chunk.css.map",
+    "static/css/main.a60116e0.chunk.css.map": "/static/css/main.a60116e0.chunk.css.map",
     "static/js/2.571facaa.chunk.js.LICENSE.txt": "/static/js/2.571facaa.chunk.js.LICENSE.txt",
     "static/media/triangles-no-6.02d5f508.mid": "/static/media/triangles-no-6.02d5f508.mid",
     "static/media/triangles-no-6.3cd4ec8e.ogg": "/static/media/triangles-no-6.3cd4ec8e.ogg"
@@ -16,7 +16,7 @@
   "entrypoints": [
     "static/js/runtime-main.2e616bb1.js",
     "static/js/2.571facaa.chunk.js",
-    "static/css/main.35f0209f.chunk.css",
-    "static/js/main.4628e4e9.chunk.js"
+    "static/css/main.a60116e0.chunk.css",
+    "static/js/main.071a2793.chunk.js"
   ]
 }

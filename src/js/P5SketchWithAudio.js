@@ -41,7 +41,7 @@ const P5SketchWithAudio = () => {
                     document.getElementById("loader").classList.add("loading--complete");
                     document.getElementById("play-icon").classList.remove("fade-out");
                     if(p.bgColour){
-                        //document.getElementById("play-icon").style.fill = 'black';
+                        document.getElementById("play-icon").style.fill = 'black';
                     }
                 }
             );

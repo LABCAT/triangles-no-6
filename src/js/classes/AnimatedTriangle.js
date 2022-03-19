@@ -56,7 +56,7 @@ export default class AnimatedTriangle {
 
             this.p.push();
             this.p.noStroke();
-            this.fillColour.setAlpha(16);
+            this.fillColour.setAlpha(0.06);
             this.p.fill(this.fillColour);
             this.p.triangle( 
                 point1.x, 
@@ -66,7 +66,7 @@ export default class AnimatedTriangle {
                 point3.x, 
                 point3.y 
             );
-            this.fillColour.setAlpha(32);
+            this.fillColour.setAlpha(0.12);
             this.p.fill(this.fillColour);
             this.p.triangle( 
                 point4.x, 
@@ -76,7 +76,7 @@ export default class AnimatedTriangle {
                 point6.x, 
                 point6.y 
             );
-            this.fillColour.setAlpha(64);
+            this.fillColour.setAlpha(0.24);
             this.p.fill(this.fillColour);
             this.p.stroke(255);
             this.p.triangle( 

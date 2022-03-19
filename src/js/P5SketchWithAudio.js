@@ -36,8 +36,13 @@ const P5SketchWithAudio = () => {
                     p.scheduleCueSet(noteSet1, 'executeCueSet1');
                     p.scheduleCueSet(noteSet2, 'executeCueSet2');
                     p.audioLoaded = true;
+                    p.bgColour = Math.random() < 0.5 ? 0 : 255;
+                    p.background(p.bgColour);
                     document.getElementById("loader").classList.add("loading--complete");
                     document.getElementById("play-icon").classList.remove("fade-out");
+                    if(p.bgColour){
+                        //document.getElementById("play-icon").style.fill = 'black';
+                    }
                 }
             );
             
@@ -63,13 +68,14 @@ const P5SketchWithAudio = () => {
             }
         } 
 
+        p.bgColour = 0;
         p.triangles = [];
         p.nextTriangles = [];
 
         p.setup = () => {
             p.randomColor = require('randomcolor');
             p.canvas = p.createCanvas(p.canvasWidth, p.canvasHeight);
-            p.background(0);
+            p.colorMode(p.HSL);
             p.generateNextTriangles();
         }
 
@@ -82,23 +88,18 @@ const P5SketchWithAudio = () => {
             }
         }
 
-        p.colourScheme = [];
-        p.colourIndex = 0;
         p.gatNotesPerSynthNote = 0;
         p.trisPerNote = 0;
         p.trisPerLastNote = 0;
 
         p.executeCueSet1 = (note) => {
             const { currentCue } = note;
-            p.background(0);
+            p.background(p.bgColour);
             p.gatNotesPerSynthNote = 
                 currentCue % 5 === 0 ? 7 :
                 currentCue % 5 === 4 ? 8 :
                 15;
             p.triangles = p.nextTriangles;
-            p.colourScheme = p.randomColor({luminosity: 'dark', count: p.gatNotesPerSynthNote});
-            p.colourIndex = 0;
-
             p.trisPerNote = Math.floor(p.triangles.length / p.gatNotesPerSynthNote);
             p.trisPerLastNote = p.trisPerNote + (p.triangles.length - (p.gatNotesPerSynthNote * p.trisPerNote));
             
@@ -114,7 +115,6 @@ const P5SketchWithAudio = () => {
                 triangle.canDraw = true; 
                 triangle.setLifeTime(duration * 1000); 
             }
-            p.colourIndex++;
         }
 
 
@@ -143,8 +143,13 @@ const P5SketchWithAudio = () => {
                 return [ pt.x, pt.y ];
             } ) );
                 
-            const colour1 = p.color(p.randomColor({luminosity: 'bright'})),
-                colour2 = p.color(p.randomColor({luminosity: 'light'}));
+            const randomColor1 = p.randomColor({luminosity: 'bright', format: 'hslArray'}),
+                randomColor2 = p.randomColor({luminosity: 'bright', format: 'hslArray'}), 
+                complementaryColourHue = randomColor1[0] + 180 > 360 ? randomColor1[0] - 180 : randomColor1[0] + 180, 
+                colour1 = p.color(randomColor1[0], randomColor1[1], randomColor1[2]),
+                colour2 = Math.random() < 0.5 ?
+                     p.color(complementaryColourHue, randomColor1[1], randomColor1[2]) :
+                     p.color(randomColor2[0], randomColor2[1], randomColor2[2]);
             // create Triangles object using indices returned by Delaunay.triangulate
             for( var i = 0; i < triangulation.length; i += 3 ){
                 p.nextTriangles.push( 
@@ -169,6 +174,7 @@ const P5SketchWithAudio = () => {
                 } else {
                     if (parseInt(p.song.currentTime()) >= parseInt(p.song.buffer.duration)) {
                         p.reset();
+                        p.generateNextTriangles();
                     }
                     document.getElementById("play-icon").classList.add("fade-out");
                     p.canvas.addClass("fade-in");
